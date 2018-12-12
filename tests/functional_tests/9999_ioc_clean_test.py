@@ -21,12 +21,11 @@
 # STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING
 # IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
+
 import os
 
 import pytest
-from click.testing import CliRunner
 
-import iocage_cli as ioc
 
 require_root = pytest.mark.require_root
 require_zpool = pytest.mark.require_zpool
@@ -34,14 +33,13 @@ require_zpool = pytest.mark.require_zpool
 
 @require_root
 @require_zpool
-def test_clean():
+def test_clean(invoke_cli):
     # Unless we change directory (not sure why) this will crash pytest.
-    os.chdir("/")
-    actions = [["-j", "-f"], ["-a", "-f"]]
+    os.chdir('/')
+    actions = [['-j', '-f'], ['-t', '-f'], ['-a', '-f']]
 
-    runner = CliRunner()
     for action in actions:
-        command = ["clean"] + action
-        result = runner.invoke(ioc.cli, command)
-
-        assert result.exit_code == 0
+        command = ['clean'] + action
+        invoke_cli(
+            command
+        )
