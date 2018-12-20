@@ -10,8 +10,10 @@ iocage_tests_task:
     - python3 -m ensurepip
   evn_setup_script:
     - mount -t fdescfs null /dev/fd
+    - git clone https://github.com/freenas/py-libzfs.git /tmp/py-libzfs
+    - cd /tmp/py-libzfs && ./configure && python3 setup.py install
   pip_cache:
     folder: ~/.cache/pip
     fingerprint_script: echo $PYTHON_VERSION && cat requirements.txt
     populate_script: python3 -m pip install -U pytest pytest-cov pytest-pep8 pytest-mock mock cython
-  test_script: make install && pytest --zpool=pool
+  test_script: python3 setup.py install && pytest --zpool=pool
