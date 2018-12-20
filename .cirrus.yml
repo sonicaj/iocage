@@ -12,6 +12,7 @@ iocage_tests_task:
     folder: ~/.cache/pip
     populate_script: python3 -m pip install -U pytest pytest-cov pytest-pep8 pytest-mock mock cython
   env_setup_script:
+    - python3 -m pip install -U pytest pytest-cov pytest-pep8 pytest-mock mock cython
     - mount -t fdescfs null /dev/fd
     - git clone https://github.com/freenas/py-libzfs.git /tmp/py-libzfs
     - cd /tmp/py-libzfs && ./configure && python3 setup.py install
